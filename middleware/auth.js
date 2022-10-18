@@ -30,12 +30,26 @@ exports.verifyUserToken =  async(req, res, next) => {
 
     if (token === "null" || !token)
       return res.status(401).json({message:"Unauthorized request"});
+      
 
     // decoded token
-    let verifiedUser = jwt.verify(token, process.env.SECRET_KEY); 
+    let verifiedUser = ''
+    try{
+       verifiedUser = jwt.verify(token, process.env.SECRET_KEY);    
+    }
+    catch(err)
+    {
+      console.error(err.name);
+      return next(err);
+    }
     
     if (!verifiedUser) return res.status(401).send("Unauthorized request");
 
+/*     if (verifiedUser.exp * 1000 < Date.now())
+    {
+      return res.status(401).json({message: "token expired, please refresh"});
+    }
+ */
     if (!await userModel.findById(verifiedUser.id)) {
       next(new NotFoundItemException(verifiedUser.id));
       // throw new NotFoundItemException(verifiedUser.id);

@@ -27,7 +27,8 @@ exports.register = catchAsync(async (req, res) => {
 
   let payload = { id: savedUser._id };
 
-  const token = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn:process.env.JWT_EXPIRE});
+  const token = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn:"2d"});
+  // const token = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn:process.env.JWT_EXPIRE});
   
   
   res.status(201).cookie({ token: token }).json({ token });
@@ -50,7 +51,8 @@ exports.login = catchAsync(async (req, res) => {
     }
 
     let payload = { id: user._id };
-    const token = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn:process.env.JWT_EXPIRE});
+    const token = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn:"2d"});
+    // const token = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn:process.env.JWT_EXPIRE});
 
     res.status(200).header("auth-token", token).cookie({token: token}).json({ message: `Welcome back ${user.name}`, token: token });
 

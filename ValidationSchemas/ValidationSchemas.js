@@ -1,12 +1,10 @@
 const Joi = require('joi');
 
 module.exports.expenseSchema = Joi.object({
-  expense: Joi.object({
-    sum: Joi.number()
+  sum: Joi.number()
       .required()
       .min(0),
-    description: Joi.string(),
-  }).required(),
+    description: Joi.string().required(),
 });
 
 

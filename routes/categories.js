@@ -11,7 +11,9 @@ router.use(verifyUserToken);
 
 router.get("/", catchAsync(async (req, res,next)=>
 {
-    const categories = await Category.find({}).populate('expenses');   
+    const categories = await Category.find({},{expenses:0});   
+    // const categories = await Category.find({}).populate('expenses');   
+    
     res.status(200).json({'categories': categories});
 
 })); 

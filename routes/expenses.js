@@ -33,6 +33,7 @@ router.get('/:id/:userId', AuthorizeUser, catchAsync(async(req, res)=>
 {
   const expense = await Expense.findById(req.params.id).populate('category',{expenses: 0});
   if (!expense) {throw new NotFoundItemException(req.params.id);}
+    
   
   res.json({"expense": expense});
 
@@ -40,10 +41,10 @@ router.get('/:id/:userId', AuthorizeUser, catchAsync(async(req, res)=>
 
 router.post("/:categoryId/:userId", AuthorizeUser, validateExpense, catchAsync(async (req,res)=> {
     
-    console.log("new cost", req.user);
-    console.log("cost: ", req.body.expense);
-  
-    const expense = new Expense(req.body.expense);
+
+    console.log("params",req.params);
+    console.log("body",req.body);
+    const expense = new Expense(req.body);
     const {categoryId} = req.params;
     const category = await Category.findById(categoryId);
 

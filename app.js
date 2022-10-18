@@ -49,6 +49,13 @@ app.all('*', (req, res, next) => {
     next(new ExpressError('error, not found', 404));
     
 });
+app.use(function (err, req, res, next) {
+    if (err.name === "TokenExpiredError") {
+      res.status(401).json({message:"token expired, please refresh..."});
+    } else {
+      next(err);
+    }
+  });
 
 app.use((err, req, res, next)=>{
     const {statusCode = 500} = err;
