@@ -32,10 +32,11 @@ router.get('/:userId', AuthorizeUser,async (req, res) => {
 router.get('/:id/:userId', AuthorizeUser, catchAsync(async(req, res)=>
 {
   const expense = await Expense.findById(req.params.id).populate('category',{expenses: 0});
+  console.log(expense);
   if (!expense) {throw new NotFoundItemException(req.params.id);}
     
-  
-  res.json({"expense": expense});
+    const expenseDTO = {sum: expense.sum, description: expense.description,createdAt:expense.createdAt, _id: expense._id, category: expense.category.name};
+  res.json({"expense": expenseDTO});
 
 }));
 
@@ -65,7 +66,7 @@ router.post("/:categoryId/:userId", AuthorizeUser, validateExpense, catchAsync(a
 router.put('/:id/:userId',AuthorizeUser, validateExpense,catchAsync( async (req, res) => 
 {
     
-      const updatedExpense = req.body.expense;
+      const updatedExpense = req.body;
       const targetCostToUpdated = await Expense.findByIdAndUpdate(
         req.params.id,
         updatedExpense
