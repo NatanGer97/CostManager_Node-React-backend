@@ -7,6 +7,7 @@ const Schema = mongoose.Schema;
 const expenseSchema = new Schema(
   {
     sum: { type: Number, default: 0, require: [true, "sum cant be blank"] },
+    date: {type: Date, default: new Date().toISOString(), require},
     description: {
       type: String,
       required: [true, "expense must have description"],

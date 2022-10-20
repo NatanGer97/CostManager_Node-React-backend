@@ -41,7 +41,7 @@ router.put("/:categoryId", validateCategory,catchAsync(async(req, res)=>
 
 router.post("/", validateCategory, catchAsync (async (req,res)=> {
     
-    const category = new Category(req.body.category);
+    const category = new Category(req.body);
     await category.save();
     res.status(201).json(category);
 }));
